@@ -1,0 +1,232 @@
+# Skills Registry
+# Single source of truth for all skill metadata.
+# Skill directories contain only prompt.md (pure markdown, no front matter).
+# All metadata lives here.
+
+skills:
+  # SAST tools (bash runner, executed via scan-repo.sh)
+  semgrep:
+    path: tools/semgrep
+    description: "Multi-language SAST with custom rules"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  gitleaks:
+    path: tools/gitleaks
+    description: "Secret detection in git history and code"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  trufflehog:
+    path: tools/trufflehog
+    description: "High-signal secret scanner with verification"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  kube-linter:
+    path: tools/kube-linter
+    description: "Kubernetes manifest linting for security and best practices"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  hadolint:
+    path: tools/hadolint
+    description: "Dockerfile linting"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  shellcheck:
+    path: tools/shellcheck
+    description: "Shell script static analysis"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  trivy:
+    path: tools/trivy
+    description: "Vulnerability scanner for containers, filesystems, git repos"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  grype:
+    path: tools/grype
+    description: "Vulnerability scanner for container images and filesystems"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  osv-scanner:
+    path: tools/osv-scanner
+    description: "OSV database vulnerability scanner"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  govulncheck:
+    path: tools/govulncheck
+    description: "Go vulnerability checker using call graph analysis"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  pip-audit:
+    path: tools/pip-audit
+    description: "Python dependency vulnerability scanner"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  actionlint:
+    path: tools/actionlint
+    description: "GitHub Actions workflow linter"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  zizmor:
+    path: tools/zizmor
+    description: "GitHub Actions security scanner"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  cppcheck:
+    path: tools/cppcheck
+    description: "C/C++ static analysis"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  flawfinder:
+    path: tools/flawfinder
+    description: "C/C++ security flaw finder"
+    type: tool
+    model_tier: null
+    tools: []
+    supported_backends: []
+    estimated_tokens: { base: 0 }
+
+  # AI skills (agent SDK or LLM prompt runner)
+  semantic-scan:
+    path: scanning/semantic-scan
+    prompt_file: prompt.md
+    description: "AI security scan for business logic flaws, LLM risks, complex validation gaps"
+    type: skill
+    model_tier: heavy
+    tools: [Read, Glob, Grep]
+    supported_backends: [vertex, anthropic]
+    estimated_tokens: { base: 30000, per_1k_loc: 500 }
+
+  adversarial-review:
+    path: scanning/adversarial-review
+    prompt_file: prompt.md
+    description: "Multi-specialist adversarial code review (SEC, PERF, QUAL, CORR, ARCH)"
+    type: skill
+    model_tier: heavy
+    tools: [Read, Glob, Grep]
+    supported_backends: [vertex, anthropic]
+    estimated_tokens: { base: 50000, per_1k_loc: 750 }
+
+  prodsec-audit:
+    path: scanning/prodsec-audit
+    prompt_file: prompt.md
+    description: "Line-by-line security audit with context building"
+    type: skill
+    model_tier: medium
+    tools: [Read, Glob, Grep]
+    supported_backends: [vertex, anthropic]
+    estimated_tokens: { base: 25000, per_1k_loc: 400 }
+
+  claude-direct-merge:
+    path: triage/claude-direct-merge
+    prompt_file: prompt.md
+    description: "Single-prompt finding deduplication and risk ranking"
+    type: skill
+    model_tier: medium
+    tools: []
+    supported_backends: [vertex, anthropic, openai-compat]
+    estimated_tokens: { base: 15000, per_1k_findings: 200 }
+
+  adversarial-triage:
+    path: triage/adversarial-triage
+    prompt_file: prompt.md
+    description: "Multi-specialist triage with cross-validation"
+    type: skill
+    model_tier: heavy
+    tools: []
+    supported_backends: [vertex, anthropic]
+    estimated_tokens: { base: 30000, per_1k_findings: 400 }
+
+  fp-check:
+    path: triage/fp-check
+    prompt_file: prompt.md
+    description: "6-gate false-positive verification framework"
+    type: skill
+    model_tier: medium
+    tools: []
+    supported_backends: [vertex, anthropic, openai-compat]
+    estimated_tokens: { base: 10000 }
+
+  cve-analyze:
+    path: cve/cve-analyze
+    prompt_file: prompt.md
+    description: "CVE exploitability assessment in application context"
+    type: skill
+    model_tier: medium
+    tools: []
+    supported_backends: [vertex, anthropic, openai-compat]
+    estimated_tokens: { base: 8000 }
+
+  cve-triage:
+    path: cve/cve-triage
+    prompt_file: prompt.md
+    description: "CVE true/false positive verification"
+    type: skill
+    model_tier: medium
+    tools: []
+    supported_backends: [vertex, anthropic, openai-compat]
+    estimated_tokens: { base: 8000 }
+
+  cve-fix:
+    path: cve/cve-fix
+    prompt_file: prompt.md
+    description: "Automated CVE remediation with PR creation"
+    type: skill
+    model_tier: heavy
+    tools: [Read, Write, Bash, Grep, Glob]
+    supported_backends: [vertex, anthropic]
+    estimated_tokens: { base: 40000, per_cve: 5000 }

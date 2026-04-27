@@ -1,0 +1,112 @@
+# Chain definitions
+# Chains compose skills into multi-step pipelines.
+# Each chain can reference other chains (nested) or individual skills.
+
+chains:
+  full-scan:
+    description: "Complete security scan: SAST tools + AI analysis + triage + report"
+    max_duration: 14400  # 4 hours
+    error_mode: continue-with-warnings
+    on_partial: warn
+    steps:
+      - chain: sast
+      - chain: ai-scan
+      - chain: merge-triage
+      - chain: report
+
+  sast:
+    description: "Static analysis tools"
+    parallel: true
+    max_concurrency: 5
+    max_duration: 3600  # 1 hour
+    error_mode: continue-with-warnings
+    on_partial: warn
+    steps:
+      - skill: semgrep
+        type: tool
+      - skill: gitleaks
+        type: tool
+      - skill: trufflehog
+        type: tool
+      - skill: kube-linter
+        type: tool
+      - skill: hadolint
+        type: tool
+      - skill: shellcheck
+        type: tool
+      - skill: trivy
+        type: tool
+      - skill: grype
+        type: tool
+      - skill: osv-scanner
+        type: tool
+      - skill: govulncheck
+        type: tool
+      - skill: pip-audit
+        type: tool
+      - skill: actionlint
+        type: tool
+      - skill: zizmor
+        type: tool
+      - skill: cppcheck
+        type: tool
+      - skill: flawfinder
+        type: tool
+
+  ai-scan:
+    description: "AI-powered security analysis"
+    parallel: true
+    max_concurrency: 3
+    max_duration: 7200  # 2 hours
+    error_mode: continue-with-warnings
+    on_partial: warn
+    steps:
+      - skill: semantic-scan
+        model_tier: heavy
+        isolation: worktree
+      - skill: adversarial-review
+        model_tier: heavy
+        isolation: worktree
+      - skill: prodsec-audit
+        model_tier: medium
+        isolation: worktree
+
+  merge-triage:
+    description: "Finding deduplication and triage"
+    mode: single
+    error_mode: fail-fast
+    on_partial: fail
+    steps:
+      - skill: claude-direct-merge
+        model_tier: medium
+        label: "Claude Direct"
+      - skill: adversarial-triage
+        model_tier: heavy
+        label: "Adversarial Triage"
+
+  cve:
+    description: "CVE analysis and optional remediation"
+    max_duration: 7200  # 2 hours
+    error_mode: fail-fast
+    on_partial: fail
+    steps:
+      - skill: cve-analyze
+        model_tier: medium
+      - skill: cve-triage
+        model_tier: medium
+      - skill: cve-fix
+        model_tier: heavy
+        optional: true
+
+  report:
+    description: "Report generation"
+    error_mode: continue-with-warnings
+    on_partial: warn
+    steps:
+      - skill: per-tool-report
+        type: builtin
+      - skill: consolidated-report
+        type: builtin
+      - skill: comparison-report
+        type: builtin
+        condition: "merge-triage.compare == true"
