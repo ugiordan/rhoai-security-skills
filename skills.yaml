@@ -1,146 +1,13 @@
 # Skills Registry
-# Single source of truth for all skill metadata.
-# Skill directories contain only prompt.md (pure markdown, no front matter).
+# Single source of truth for AI skill metadata.
+# Skill directories contain prompt.md (pure markdown, no front matter).
 # All metadata lives here.
+#
+# SAST tools (semgrep, gitleaks, trivy, etc.) are NOT listed here.
+# They are managed by tool_registry.py and scan-repo.sh in the scanner repo.
 
 skills:
-  # SAST tools (bash runner, executed via scan-repo.sh)
-  semgrep:
-    path: tools/semgrep
-    description: "Multi-language SAST with custom rules"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  gitleaks:
-    path: tools/gitleaks
-    description: "Secret detection in git history and code"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  trufflehog:
-    path: tools/trufflehog
-    description: "High-signal secret scanner with verification"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  kube-linter:
-    path: tools/kube-linter
-    description: "Kubernetes manifest linting for security and best practices"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  hadolint:
-    path: tools/hadolint
-    description: "Dockerfile linting"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  shellcheck:
-    path: tools/shellcheck
-    description: "Shell script static analysis"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  trivy:
-    path: tools/trivy
-    description: "Vulnerability scanner for containers, filesystems, git repos"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  grype:
-    path: tools/grype
-    description: "Vulnerability scanner for container images and filesystems"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  osv-scanner:
-    path: tools/osv-scanner
-    description: "OSV database vulnerability scanner"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  govulncheck:
-    path: tools/govulncheck
-    description: "Go vulnerability checker using call graph analysis"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  pip-audit:
-    path: tools/pip-audit
-    description: "Python dependency vulnerability scanner"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  actionlint:
-    path: tools/actionlint
-    description: "GitHub Actions workflow linter"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  zizmor:
-    path: tools/zizmor
-    description: "GitHub Actions security scanner"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  cppcheck:
-    path: tools/cppcheck
-    description: "C/C++ static analysis"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  flawfinder:
-    path: tools/flawfinder
-    description: "C/C++ security flaw finder"
-    type: tool
-    model_tier: null
-    tools: []
-    supported_backends: []
-    estimated_tokens: { base: 0 }
-
-  # AI skills (agent SDK or LLM prompt runner)
+  # Scanning: AI-powered security analysis with tool use
   semantic-scan:
     path: scanning/semantic-scan
     prompt_file: prompt.md
@@ -171,6 +38,7 @@ skills:
     supported_backends: [vertex, anthropic]
     estimated_tokens: { base: 25000, per_1k_loc: 400 }
 
+  # Triage: finding deduplication and validation (reasoning only, no tool use)
   claude-direct-merge:
     path: triage/claude-direct-merge
     prompt_file: prompt.md
@@ -201,6 +69,7 @@ skills:
     supported_backends: [vertex, anthropic, openai-compat]
     estimated_tokens: { base: 10000 }
 
+  # CVE: vulnerability analysis and remediation
   cve-analyze:
     path: cve/cve-analyze
     prompt_file: prompt.md
