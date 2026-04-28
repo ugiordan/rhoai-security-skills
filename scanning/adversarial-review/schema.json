@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["findings"],
+  "properties": {
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "severity", "confidence", "category", "file_path", "description"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^ADV-\\d{3}$" },
+          "title": { "type": "string", "maxLength": 200 },
+          "severity": { "type": "string", "enum": ["critical", "high", "medium", "low", "info"] },
+          "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+          "category": {
+            "type": "string",
+            "enum": ["supply-chain", "privilege-escalation", "data-exfiltration", "dos", "lateral-movement", "auth-bypass", "config-weakness"]
+          },
+          "file_path": { "type": "string" },
+          "line_start": { "type": "integer", "minimum": 1 },
+          "line_end": { "type": "integer", "minimum": 1 },
+          "description": { "type": "string" },
+          "attack_scenario": { "type": "string" },
+          "evidence": { "type": "string" },
+          "impact": { "type": "string" },
+          "existing_controls": { "type": "string" },
+          "remediation": { "type": "string" },
+          "references": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "threat_model_summary": { "type": "string" },
+    "attack_surface": { "type": "array", "items": { "type": "string" } },
+    "overall_risk": { "type": "string", "enum": ["critical", "high", "medium", "low"] }
+  }
+}

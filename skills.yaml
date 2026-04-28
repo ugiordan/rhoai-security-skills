@@ -12,3 +12,13 @@ skills:
     tools: [Read, Glob, Grep]
     supported_backends: [vertex, anthropic]
     estimated_tokens: { base: 30000, per_1k_loc: 500 }
+
+  adversarial-review:
+    path: scanning/adversarial-review
+    prompt_file: prompt.md
+    description: "Adversarial second-pass review: threat modeling, exploit path verification, false negative hunting"
+    type: skill
+    model_tier: heavy
+    tools: [Read, Glob, Grep]
+    supported_backends: [vertex, anthropic]
+    estimated_tokens: { base: 40000, per_1k_loc: 600 }
