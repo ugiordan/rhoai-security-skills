@@ -3,58 +3,27 @@
 #
 # SAST tools run separately via the existing pipeline (scan-repo.sh).
 # These chains only orchestrate AI skills that run after SAST completes.
+#
+# Only reference skills that exist in skills.yaml.
+# As new skills get implemented, add them to skills.yaml first,
+# then wire them into chains here.
 
 chains:
   full-scan:
-    description: "AI analysis + triage: runs after SAST tools complete"
-    max_duration: 14400  # 4 hours
+    description: "AI analysis: runs semantic-scan after SAST tools complete"
+    max_duration: 7200  # 2 hours
     error_mode: continue-with-warnings
     on_partial: warn
     steps:
       - chain: ai-scan
-      - chain: merge-triage
 
   ai-scan:
     description: "AI-powered security analysis"
-    parallel: true
-    max_concurrency: 3
-    max_duration: 7200  # 2 hours
+    parallel: false
+    max_duration: 3600  # 1 hour
     error_mode: continue-with-warnings
     on_partial: warn
     steps:
       - skill: semantic-scan
         model_tier: heavy
         isolation: worktree
-      - skill: adversarial-review
-        model_tier: heavy
-        isolation: worktree
-      - skill: prodsec-audit
-        model_tier: medium
-        isolation: worktree
-
-  merge-triage:
-    description: "Finding deduplication and triage"
-    mode: single
-    error_mode: fail-fast
-    on_partial: fail
-    steps:
-      - skill: claude-direct-merge
-        model_tier: medium
-        label: "Claude Direct"
-      - skill: adversarial-triage
-        model_tier: heavy
-        label: "Adversarial Triage"
-
-  cve:
-    description: "CVE analysis and optional remediation"
-    max_duration: 7200  # 2 hours
-    error_mode: fail-fast
-    on_partial: fail
-    steps:
-      - skill: cve-analyze
-        model_tier: medium
-      - skill: cve-triage
-        model_tier: medium
-      - skill: cve-fix
-        model_tier: heavy
-        optional: true

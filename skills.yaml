@@ -1,13 +1,8 @@
 # Skills Registry
 # Single source of truth for AI skill metadata.
-# Skill directories contain prompt.md (pure markdown, no front matter).
-# All metadata lives here.
-#
-# SAST tools (semgrep, gitleaks, trivy, etc.) are NOT listed here.
-# They are managed by tool_registry.py and scan-repo.sh in the scanner repo.
+# Only list skills that have an actual prompt.md implementation.
 
 skills:
-  # Scanning: AI-powered security analysis with tool use
   semantic-scan:
     path: scanning/semantic-scan
     prompt_file: prompt.md
@@ -17,85 +12,3 @@ skills:
     tools: [Read, Glob, Grep]
     supported_backends: [vertex, anthropic]
     estimated_tokens: { base: 30000, per_1k_loc: 500 }
-
-  adversarial-review:
-    path: scanning/adversarial-review
-    prompt_file: prompt.md
-    description: "Multi-specialist adversarial code review (SEC, PERF, QUAL, CORR, ARCH)"
-    type: skill
-    model_tier: heavy
-    tools: [Read, Glob, Grep]
-    supported_backends: [vertex, anthropic]
-    estimated_tokens: { base: 50000, per_1k_loc: 750 }
-
-  prodsec-audit:
-    path: scanning/prodsec-audit
-    prompt_file: prompt.md
-    description: "Line-by-line security audit with context building"
-    type: skill
-    model_tier: medium
-    tools: [Read, Glob, Grep]
-    supported_backends: [vertex, anthropic]
-    estimated_tokens: { base: 25000, per_1k_loc: 400 }
-
-  # Triage: finding deduplication and validation (reasoning only, no tool use)
-  claude-direct-merge:
-    path: triage/claude-direct-merge
-    prompt_file: prompt.md
-    description: "Single-prompt finding deduplication and risk ranking"
-    type: skill
-    model_tier: medium
-    tools: []
-    supported_backends: [vertex, anthropic, openai-compat]
-    estimated_tokens: { base: 15000, per_1k_findings: 200 }
-
-  adversarial-triage:
-    path: triage/adversarial-triage
-    prompt_file: prompt.md
-    description: "Multi-specialist triage with cross-validation"
-    type: skill
-    model_tier: heavy
-    tools: []
-    supported_backends: [vertex, anthropic]
-    estimated_tokens: { base: 30000, per_1k_findings: 400 }
-
-  fp-check:
-    path: triage/fp-check
-    prompt_file: prompt.md
-    description: "6-gate false-positive verification framework"
-    type: skill
-    model_tier: medium
-    tools: []
-    supported_backends: [vertex, anthropic, openai-compat]
-    estimated_tokens: { base: 10000 }
-
-  # CVE: vulnerability analysis and remediation
-  cve-analyze:
-    path: cve/cve-analyze
-    prompt_file: prompt.md
-    description: "CVE exploitability assessment in application context"
-    type: skill
-    model_tier: medium
-    tools: []
-    supported_backends: [vertex, anthropic, openai-compat]
-    estimated_tokens: { base: 8000 }
-
-  cve-triage:
-    path: cve/cve-triage
-    prompt_file: prompt.md
-    description: "CVE true/false positive verification"
-    type: skill
-    model_tier: medium
-    tools: []
-    supported_backends: [vertex, anthropic, openai-compat]
-    estimated_tokens: { base: 8000 }
-
-  cve-fix:
-    path: cve/cve-fix
-    prompt_file: prompt.md
-    description: "Automated CVE remediation with PR creation"
-    type: skill
-    model_tier: heavy
-    tools: [Read, Write, Bash, Grep, Glob]
-    supported_backends: [vertex, anthropic]
-    estimated_tokens: { base: 40000, per_cve: 5000 }
