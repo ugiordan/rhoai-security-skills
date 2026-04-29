@@ -10,7 +10,7 @@
 
 chains:
   full-scan:
-    description: "AI analysis: semantic scan then adversarial review after SAST tools complete"
+    description: "Complete security analysis: all AI skills in parallel"
     max_duration: 10800  # 3 hours
     error_mode: continue-with-warnings
     on_partial: warn
@@ -18,8 +18,9 @@ chains:
       - chain: ai-scan
 
   ai-scan:
-    description: "AI-powered security analysis: semantic scan followed by adversarial review"
-    parallel: false
+    description: "AI security analysis: semantic scan, adversarial review, and general review in parallel"
+    parallel: true
+    max_concurrency: 3
     max_duration: 7200  # 2 hours
     error_mode: continue-with-warnings
     on_partial: warn
@@ -28,5 +29,8 @@ chains:
         model_tier: heavy
         isolation: worktree
       - skill: adversarial-review
+        model_tier: heavy
+        isolation: worktree
+      - skill: general-review
         model_tier: heavy
         isolation: worktree

@@ -22,3 +22,13 @@ skills:
     tools: [Read, Glob, Grep]
     supported_backends: [vertex, anthropic]
     estimated_tokens: { base: 40000, per_1k_loc: 600 }
+
+  general-review:
+    path: scanning/general-review
+    prompt_file: prompt.md
+    description: "Broad security review: injection, auth, crypto, data exposure, error handling, dependency risks"
+    type: skill
+    model_tier: heavy
+    tools: [Read, Glob, Grep]
+    supported_backends: [vertex, anthropic]
+    estimated_tokens: { base: 35000, per_1k_loc: 550 }

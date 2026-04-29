@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Semantic Scan Output",
-  "description": "Output schema for the semantic security scan skill",
+  "title": "General Security Review Output",
+  "description": "Output schema for the general security review skill",
   "type": "object",
   "required": ["findings"],
   "properties": {
@@ -13,7 +13,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^SEM-\\d{3,}$"
+            "pattern": "^GEN-\\d{3,}$"
           },
           "title": {
             "type": "string",
@@ -31,7 +31,7 @@
           },
           "category": {
             "type": "string",
-            "enum": ["auth", "input-validation", "secrets", "container", "business-logic", "data-flow"]
+            "enum": ["injection", "auth", "crypto", "config", "data-exposure", "error-handling", "race-condition", "dependency", "access-control", "other"]
           },
           "file_path": {
             "type": "string",
